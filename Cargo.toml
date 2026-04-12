@@ -2,3 +2,7 @@
 name = "flux-stigmergy"
 version = "0.1.0"
 edition = "2021"
+description = "Pheromone-based indirect communication — how agents leave trails for each other"
+
+[dependencies]
+rand = "0.8"
