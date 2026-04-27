@@ -1,0 +1,13 @@
+target/
+Cargo.lock
+*.profraw
+*.swp
+*.o
+*.so
+*.dylib
+
+.DS_Store
+*.swp
+*.profraw
+.env
+
