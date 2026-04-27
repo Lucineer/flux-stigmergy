@@ -1,25 +1,32 @@
 # flux-stigmergy
 
-Stigmergic communication for multi-agent systems. Agents leave traces in a shared environment, and other agents react to those traces — indirect coordination through the environment.
+Stigmergic communication for agent fleets — indirect coordination through environment modification. Agents leave signals in shared spaces; other agents perceive and react. No direct messaging required.
 
-## Core Concepts
+## Core Concept
 
-- **Trace**: A message left by an agent (key-value with metadata)
-- **SharedEnvironment**: The shared space where traces are deposited and consumed
-- **Waypoint**: A path through related traces, built by following trace references
-- **Decay**: Traces lose strength over time (exponential decay), but reading boosts them
+Ants don't talk to each other. They leave pheromone trails. Other ants follow the trails, reinforce them, or avoid them. Stigmergy is communication through the environment itself — the most scalable coordination mechanism in nature.
 
-## Usage
+```
+Agent A → Modify Environment → Signal (pheromone/data/flag)
+                                        ↓
+Agent B → Perceive Signal → React → Modify Environment → ...
+                                        ↓
+Agent C → Perceive Signal → React → ...
+```
 
-```rust
-use flux_stigmergy::{SharedEnvironment, Trace, TraceType};
+## Why Stigmergy?
 
-let mut env = SharedEnvironment::new();
-env.deposit(Trace::new(1, "location:door", "unlocked", 1000, 800, TraceType::Info));
+- **Scalable** — no pairwise connections needed (O(n) signals, not O(n²))
+- **Robust** — signals persist even if agents die
+- **Emergent** — complex coordination arises from simple local rules
+- **Async** — no handshake or acknowledgment required
 
-if let Some(trace) = env.read("location:door") {
-    println!("Found: {}", trace.value);
-}
+## Quick Start
+
+```bash
+git clone https://github.com/Lucineer/flux-stigmergy.git
+cd flux-stigmergy
+cargo test
 ```
 
 ---
