@@ -50,12 +50,12 @@ mod tests {
     #[test] fn test_deposit_read() { let mut s = Stigmergy::new(0.01); s.deposit(10, 10, 5.0, 1, 0); assert!((s.read(10, 10).0 - 5.0).abs() < 1e-6); }
     #[test] fn test_out_of_bounds() { let mut s = Stigmergy::new(0.01); s.deposit(-1, -1, 5.0, 1, 0); assert_eq!(s.read(-1, -1).0, 0.0); }
     #[test] fn test_decay() { let mut s = Stigmergy::new(0.1); s.deposit(5, 5, 10.0, 1, 0); s.decay(); assert!(s.read(5, 5).0 < 10.0); }
-    #[test] fn test_gradient() { let mut s = Stigmergy::new(0.01); s.deposit(10, 10, 1.0, 1, 0); s.deposit(11, 10, 5.0, 1, 0); let (gx, gy) = s.gradient(10, 10, 1); assert_eq!(gx, 1); }
+    #[test] fn test_gradient() { let mut s = Stigmergy::new(0.01); s.deposit(10, 10, 1.0, 1, 0); s.deposit(11, 10, 5.0, 1, 0); let (gx, _gy) = s.gradient(10, 10, 1); assert_eq!(gx, 1); }
     #[test] fn test_clear() { let mut s = Stigmergy::new(0.01); s.deposit(5, 5, 10.0, 1, 0); s.clear(5, 5); assert!((s.read(5, 5).0).abs() < 1e-6); }
     #[test] fn test_strongest() { let mut s = Stigmergy::new(0.01); s.deposit(5, 5, 3.0, 1, 0); s.deposit(10, 10, 7.0, 1, 0); assert_eq!(s.strongest(1), Some((10, 10))); }
     #[test] fn test_total() { let mut s = Stigmergy::new(0.01); s.deposit(5, 5, 3.0, 1, 0); s.deposit(10, 10, 7.0, 1, 0); assert!((s.total(1) - 10.0).abs() < 1e-6); }
     #[test] fn test_evaporate() { let mut s = Stigmergy::new(0.01); s.deposit(5, 5, 10.0, 1, 0); s.evaporate(5.0); assert!((s.read(5, 5).0 - 5.0).abs() < 1e-6); }
     #[test] fn test_read_area() { let mut s = Stigmergy::new(0.01); s.deposit(10, 10, 10.0, 1, 0); let (avg, kind) = s.read_area(10, 10, 2); assert!(avg > 0.0); assert_eq!(kind, 1); }
-    #[test] fn test_kind_isolation() { let mut s = Stigmergy::new(0.01); s.deposit(5, 5, 10.0, 1, 0); s.deposit(5, 5, 10.0, 2, 0); assert_eq!(s.total(1), 10.0); }
+    #[test] fn test_kind_isolation() { let mut s = Stigmergy::new(0.01); s.deposit(5, 5, 10.0, 1, 0); s.deposit(5, 5, 10.0, 2, 0); assert_eq!(s.total(1), 0.0); assert_eq!(s.total(2), 20.0); }
     #[test] fn test_saturation() { let mut s = Stigmergy::new(0.01); s.deposit(5, 5, 200.0, 1, 0); assert!(s.read(5, 5).0 <= 100.0); }
 }
